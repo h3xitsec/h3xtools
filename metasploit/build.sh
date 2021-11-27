@@ -1,2 +1,3 @@
 #!/bin/bash
-docker build -t h3xtool/metasploit .
+dockerTag=`jq -r .dockerTag ../config.json`
+docker build -t $dockerTag/metasploit .

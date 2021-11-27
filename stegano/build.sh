@@ -1,2 +1,3 @@
 #!/bin/bash
-docker build -t h3xtool/stegano .
+dockerTag=`jq -r .dockerTag ../config.json`
+docker build -t $dockerTag/stegano .

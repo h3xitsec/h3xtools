@@ -1,0 +1,5 @@
+{
+    "dockerTag":"h3xtools",
+    "installDir":"/opt/",
+    "linkDir":"/usr/local/bin"
+}
