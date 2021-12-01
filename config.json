@@ -28,6 +28,12 @@
             "usermode":false
         },
         {
+            "name":"exiftool",
+            "image":"stegano",
+            "command":"exiftool",
+            "usermode":false
+        },
+        {
             "name":"binwalk",
             "image":"stegano",
             "command":"binwalk",
