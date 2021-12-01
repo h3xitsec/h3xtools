@@ -26,3 +26,4 @@ RUN echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/reposi
     apk --update add --no-cache \
     steghide \
     binwalk \
+    exiftool
