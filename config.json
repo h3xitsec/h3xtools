@@ -53,13 +53,13 @@
         },
         {
             "name":"ffuf",
-            "image":"webrecon",
+            "image":"go",
             "command":["ffuf"],
             "usermode":false
         },
         {
             "name":"gobuster",
-            "image":"webrecon",
+            "image":"go",
             "command":["gobuster"],
             "usermode":false
         },
