@@ -1,3 +1,3 @@
 #!/bin/bash
 dockerTag=`jq -r .dockerTag ../config.json`
-docker build -t $dockerTag/crypto .
+docker build --build-arg HT_USER=$(id -un) -t $dockerTag/crypto .

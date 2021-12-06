@@ -1,11 +1,22 @@
-FROM alpine:3.13
-RUN apk update && \
-    apk add --no-cache \ 
-    gmp-dev mpfr-dev mpc1-dev python3 python3-dev py3-pip musl-dev openssl-dev libffi-dev py3-wheel git gcc g++ make cmake
-WORKDIR /opt
-RUN git clone https://github.com/Ganapati/RsaCtfTool.git
-WORKDIR /opt/RsaCtfTool
-RUN pip install -r "requirements.txt"
-RUN apk del git gcc make cmake
-WORKDIR /data
-ENTRYPOINT ["/opt/RsaCtfTool/RsaCtfTool.py"]
+FROM python:3.7.12-alpine3.15
+ARG HT_USER=root
+WORKDIR /app
+RUN addgroup -g 1000 $HT_USER                                                               \
+    && adduser h3x -u 1000 -G $HT_USER -g $HT_USER -S                                       \
+    && echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories   \
+    && apk --update --no-cache add                                                          \
+    git                                                                                     \
+    cmake                                                                                   \
+    build-base                                                                              \
+    gmp-dev                                                                                 \
+    mpfr-dev                                                                                \
+    mpc1-dev                                                                                \
+    openssl-dev                                                                             \
+    libffi-dev                                                                              \
+    && git clone https://github.com/Ganapati/RsaCtfTool.git /opt/rsactftool                 \
+    && pip install -r "/opt/rsactftool/requirements.txt"                                    \
+    && git clone https://github.com/zweisamkeit/RSHack /opt/rshack                          \
+    && pip install -r "/opt/rshack/requirements.txt"                                        \
+    && chown -R $HT_USER:$HT_USER /opt/*                                                    \
+    && apk del build-base git cmake
+USER $HT_USER

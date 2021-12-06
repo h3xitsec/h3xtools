@@ -106,6 +106,18 @@
             "dockerarg":["--mount","type=bind,source=$HOME/.config/jwt_tool/jwtconf.ini,target=/opt/jwt_tool/jwtconf.ini"],
             "localcmd":["mkdir","-p","~/.config/jwt_tool","&&","cp","-u","./jwt/jwtconf.ini","~/.config/jwt_tool/jwtconf.ini"],
             "usermode":false
+        },
+        {
+            "name":"rsactftool",
+            "image":"crypto",
+            "command":["python3","/opt/rsactftool/RsaCtfTool.py"],
+            "usermode":false
+        },
+        {
+            "name":"rshack",
+            "image":"crypto",
+            "command":["python3","/opt/rshack/rshack.py"],
+            "usermode":false
         }
     ]
 }
