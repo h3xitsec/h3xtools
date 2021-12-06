@@ -6,91 +6,105 @@
         {
             "name":"nmap",
             "image":"webrecon",
-            "command":"nmap",
+            "command":["nmap"],
             "usermode":false
         },
         {
             "name":"nikto",
             "image":"webrecon",
-            "command":"nikto",
+            "command":["nikto"],
             "usermode":false
         },
         {
             "name":"nmapAutomator",
             "image":"webrecon",
-            "command":"nmapAutomator",
+            "command":["nmapAutomator"],
             "usermode":true
         },
         {
             "name":"stegseek",
             "image":"stegano",
-            "command":"stegseek",
+            "command":["stegseek"],
             "usermode":false
         },
         {
             "name":"exiftool",
             "image":"stegano",
-            "command":"exiftool",
-            "usermode":false
-        },
-        {
-            "name":"binwalk",
-            "image":"stegano",
-            "command":"binwalk",
+            "command":["exiftool"],
             "usermode":false
         },
         {
             "name":"wpscan",
             "image":"wpscanteam/wpscan",
-            "command":"wpscan",
+            "command":["wpscan"],
             "usermode":false
         },
         {
             "name":"wfuzz",
             "image":"webrecon",
-            "command":"wfuzz",
+            "command":["wfuzz"],
             "usermode":false
         },
         {
             "name":"steghide",
             "image":"stegano",
-            "command":"steghide",
+            "command":["steghide"],
             "usermode":false
         },
         {
             "name":"ffuf",
             "image":"webrecon",
-            "command":"ffuf",
+            "command":["ffuf"],
             "usermode":false
         },
         {
             "name":"gobuster",
             "image":"webrecon",
-            "command":"gobuster",
+            "command":["gobuster"],
             "usermode":false
         },
         {
             "name":"msfconsole",
             "image":"metasploit",
-            "command":"/opt/metasploit-framework/bin/msfconsole",
+            "command":["/opt/metasploit-framework/bin/msfconsole"],
             "usermode":false
         },
         {
             "name":"msfvenom",
             "image":"metasploit",
-            "command":"/opt/metasploit-framework/bin/msfvenom",
+            "command":["/opt/metasploit-framework/bin/msfvenom"],
             "usermode":false
         },
         {
             "name":"sqlmap",
             "image":"sqlmap",
-            "command":"",
+            "command":[""],
             "usermode":false
         },
         {
             "name":"sslscan",
             "image":"webrecon",
-            "command":"sslscan",
+            "command":["sslscan"],
+            "usermode":false
+        },
+        {
+            "name":"binwalk",
+            "image":"stegano",
+            "command":["binwalk","--run-as=root"],
+            "usermode":false
+        },
+        {
+            "name":"volatility",
+            "image":"pwnrev",
+            "command":["python3","/opt/volatility3/vol.py"],
+            "usermode":false
+        },
+        {
+            "name":"jwt_tool",
+            "image":"jwt",
+            "command":["python3","/opt/jwt_tool/jwt_tool.py"],
+            "dockerarg":["--mount","type=bind,source=$HOME/.config/jwt_tool/jwtconf.ini,target=/opt/jwt_tool/jwtconf.ini"],
+            "localcmd":["mkdir","-p","~/.config/jwt_tool","&&","cp","-u","./jwt/jwtconf.ini","~/.config/jwt_tool/jwtconf.ini"],
             "usermode":false
         }
     ]

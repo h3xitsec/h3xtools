@@ -1,5 +1,5 @@
 #!/bin/bash
-
+function join { local IFS="$1"; shift; echo "$*"; }
 ## rebuild all image if --build switch is set
 while [ -n "$1" ]; do
         case "$1" in
@@ -19,6 +19,9 @@ fi
 ## Base docker command
 dockerCmd="docker run --rm -it \
 --network host \
+-v \$HOME/.config:\$HOME/.config \
+-v \$HOME/.local:\$HOME/.local \
+-v \$HOME/.cache:\$HOME/.cache \
 -v /etc/hosts:/etc/hosts \
 -v \$(pwd):\$(pwd) \
 -v /opt/wordlists:/opt/wordlists \
@@ -35,11 +38,31 @@ sudo mkdir -p $installDir
 
 ## Loop through tools to create launch scripts
 for tool in `jq -r ".tools[]" config.json|jq -c "."`; do
+    localCmdJson=`echo $tool|jq -r .localcmd`
+    localCmd=""
+    for ((i = 0 ; i <= $(echo $localCmdJson | jq length) - 1 ; i++)); do
+        item=$(echo $localCmdJson | jq ".[$i]" | sed s'/\"//g')
+        localCmd=$localCmd" "$item
+    done
     name=`echo $tool|jq -r .name`
     image=`echo $tool|jq -r .image`
-    command=`echo $tool|jq -r .command`
+    dockerArgJson=`echo $tool|jq -r .dockerarg`
+    dockerArg=""
+    for ((i = 0 ; i <= $(echo $dockerArgJson | jq length) - 1 ; i++)); do
+        item=$(echo $dockerArgJson | jq ".[$i]" | sed s'/\"//g')
+        dockerArg=$dockerArg" "$item
+    done
+    commandJson=`echo $tool|jq -r .command`
+    command=""
+    for ((i = 0 ; i <= $(echo $commandJson | jq length) - 1 ; i++)); do
+        item=$(echo $commandJson | jq ".[$i]" | sed s'/\"//g')
+        command=$command" "$item
+    done
+    #commandString=$(for item in "${command[@]}"; do; echo -n " $item"; done)
+    #echo $commandString
     usermode=`echo $tool|jq -r .usermode`
     echo "## Installing $name ##"
+    eval $localCmd
     if [[ $usermode == true ]]; then
         toolDockerCmd="$dockerCmd --user \"\$(id -u):\$(id -g)\""
     else
@@ -50,7 +73,7 @@ for tool in `jq -r ".tools[]" config.json|jq -c "."`; do
     fi
     cat << EOF > $tmpDir/$name
 #!/bin/bash
-$toolDockerCmd $image $command \$@
+$toolDockerCmd$dockerArg $image$command \$@
 EOF
 done
 
